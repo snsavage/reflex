@@ -29,6 +29,7 @@ type Reflex struct {
 	subSymbol    string
 	tag          string
 	done         chan struct{}
+	log          bool
 
 	mu      *sync.Mutex // protects killed and running
 	killed  bool
@@ -94,6 +95,7 @@ func NewReflex(c *Config) (*Reflex, error) {
 		command:      c.command,
 		subSymbol:    c.subSymbol,
 		tag:          c.tag,
+		log:          c.log,
 		done:         make(chan struct{}),
 		timeout:      c.shutdownTimeout,
 		mu:           &sync.Mutex{},
@@ -287,6 +289,10 @@ func (r *Reflex) runCommand(name string, stdout chan<- OutMsg) {
 	chResize <- syscall.SIGWINCH // Initial resize.
 
 	go func() {
+		if !r.log {
+			return
+		}
+
 		scanner := bufio.NewScanner(tty)
 		// Allow for lines up to 100 MB.
 		scanner.Buffer(nil, 100e6)
