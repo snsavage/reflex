@@ -289,15 +289,13 @@ func (r *Reflex) runCommand(name string, stdout chan<- OutMsg) {
 	chResize <- syscall.SIGWINCH // Initial resize.
 
 	go func() {
-		if !r.log {
-			return
-		}
-
 		scanner := bufio.NewScanner(tty)
 		// Allow for lines up to 100 MB.
 		scanner.Buffer(nil, 100e6)
 		for scanner.Scan() {
-			stdout <- OutMsg{r.id, scanner.Text(), r.tag}
+			if r.log {
+				stdout <- OutMsg{r.id, scanner.Text(), r.tag}
+			}
 		}
 		if err := scanner.Err(); errors.Is(err, bufio.ErrTooLong) {
 			infoPrintln(r.tag, r.id, "Error: subprocess emitted a line longer than 100 MB")
