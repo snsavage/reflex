@@ -24,13 +24,15 @@ const (
 type OutMsg struct {
 	reflexID int
 	msg      string
+	tag      string
 }
 
-func infoPrintln(id int, args ...interface{}) {
-	stdout <- OutMsg{id, strings.TrimSpace(fmt.Sprintln(args...))}
+func infoPrintln(tag string, id int, args ...interface{}) {
+	stdout <- OutMsg{id, strings.TrimSpace(fmt.Sprintln(args...)), tag}
 }
-func infoPrintf(id int, format string, args ...interface{}) {
-	stdout <- OutMsg{id, fmt.Sprintf(format, args...)}
+
+func infoPrintf(tag string, id int, format string, args ...interface{}) {
+	stdout <- OutMsg{id, fmt.Sprintf(format, args...), tag}
 }
 
 func printMsg(msg OutMsg, writer io.Writer) {
@@ -41,6 +43,10 @@ func printMsg(msg OutMsg, writer io.Writer) {
 		} else {
 			tag = fmt.Sprintf("[%02d]", msg.reflexID)
 		}
+	}
+
+	if msg.tag != "" {
+		tag = fmt.Sprintf("[%v]", msg.tag)
 	}
 
 	if decoration == DecorationFancy {

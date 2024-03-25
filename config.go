@@ -23,9 +23,11 @@ type Config struct {
 	subSymbol       string
 	startService    bool
 	shutdownTimeout time.Duration
+	tag             string
 	onlyFiles       bool
 	onlyDirs        bool
 	allFiles        bool
+	log             bool
 }
 
 func (c *Config) registerFlags(f *flag.FlagSet) {
@@ -53,6 +55,10 @@ func (c *Config) registerFlags(f *flag.FlagSet) {
             Only match directories (not files).`)
 	f.BoolVar(&c.allFiles, "all", false, `
             Include normally ignored files (VCS and editor special files).`)
+	f.StringVar(&c.tag, "tag", "", `
+						Tag for command log lines.`)
+	f.BoolVar(&c.log, "log", true, `
+            Log command output to stdout.`)
 }
 
 // ReadConfigs reads configurations from either a file or, as a special case,
