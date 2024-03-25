@@ -12,14 +12,14 @@ for reloading your application when the code changes.
 ## Installation
 
 You can download binaries from the
-[Releases page](https://github.com/cespare/reflex/releases).
+[Releases page](https://github.com/snsavage/reflex/releases).
 
 To compile from source, you'll need Go 1.13+ installed.
 
 If you have Go 1.16 or later, you can download and install the latest module
 version directly with
 
-    go install github.com/cespare/reflex@latest
+    go install github.com/snsavage/reflex@latest
 
 Reflex is only tested on Linux and macOS.
 
@@ -219,7 +219,7 @@ default. If you wish for these to be included, you can provide reflex with the
 
 You can see a list of regular expressions that match the files that reflex
 ignores by default
-[here](https://github.com/cespare/reflex/blob/master/defaultexclude.go#L5).
+[here](https://github.com/snsavage/reflex/blob/master/defaultexclude.go#L5).
 
 ## Notes and Tips
 
